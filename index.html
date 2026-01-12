@@ -129,17 +129,21 @@
     return;
   }
 
-  // Include game region in the search
-  const query = encodeURIComponent(item + " " + gameRegion);
-
-  let baseUrl = "https://www.ebay.ie";
+  // --- eBay ---
+  const ebayQuery = encodeURIComponent(item + " " + gameRegion);
+  let ebayBaseUrl = "https://www.ebay.ie";
   if (region === "uk") {
-    baseUrl = "https://www.ebay.co.uk";
+    ebayBaseUrl = "https://www.ebay.co.uk";
   }
+  const ebayUrl = `${ebayBaseUrl}/sch/i.html?_nkw=${ebayQuery}&LH_Sold=1&LH_Complete=1`;
+  window.open(ebayUrl, "_blank");
 
-  const url = `${baseUrl}/sch/i.html?_nkw=${query}&LH_Sold=1&LH_Complete=1`;
-  window.open(url, "_blank");
+  // --- CeX ---
+  const cexQuery = encodeURIComponent(item); // CeX doesn't need region, but you could append PAL if you want
+  const cexUrl = `https://uk.webuy.com/search.html?q=${cexQuery}`;
+  window.open(cexUrl, "_blank");
 }
+
 
     function calculate() {
   const soldField = document.getElementById("soldPrice").value;
@@ -202,6 +206,7 @@
 
 </body>
 </html>
+
 
 
 
