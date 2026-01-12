@@ -76,6 +76,14 @@
       <option value="uk">🇬🇧 United Kingdom</option>
     </select>
 
+    <label>Game Region</label>
+<select id="gameRegion">
+  <option value="PAL">PAL (Europe / Ireland)</option>
+  <option value="NTSC-U">NTSC-U (USA)</option>
+  <option value="NTSC-J">NTSC-J (Japan)</option>
+</select>
+
+
     <label>Item name</label>
     <input type="text" id="itemName" placeholder="e.g. GTA Liberty City Stories PSP">
 
@@ -112,24 +120,26 @@
 
   <script>
     function openEbay() {
-      const item = document.getElementById("itemName").value;
-      const region = document.getElementById("region").value;
+  const item = document.getElementById("itemName").value;
+  const region = document.getElementById("region").value;
+  const gameRegion = document.getElementById("gameRegion").value;
 
-      if (!item) {
-        alert("Please enter an item name.");
-        return;
-      }
+  if (!item) {
+    alert("Please enter an item name.");
+    return;
+  }
 
-      const query = encodeURIComponent(item);
-      let baseUrl = "https://www.ebay.ie";
+  // Include game region in the search
+  const query = encodeURIComponent(item + " " + gameRegion);
 
-      if (region === "uk") {
-        baseUrl = "https://www.ebay.co.uk";
-      }
+  let baseUrl = "https://www.ebay.ie";
+  if (region === "uk") {
+    baseUrl = "https://www.ebay.co.uk";
+  }
 
-      const url = `${baseUrl}/sch/i.html?_nkw=${query}&LH_Sold=1&LH_Complete=1`;
-      window.open(url, "_blank");
-    }
+  const url = `${baseUrl}/sch/i.html?_nkw=${query}&LH_Sold=1&LH_Complete=1`;
+  window.open(url, "_blank");
+}
 
     function calculate() {
   const soldField = document.getElementById("soldPrice").value;
@@ -192,5 +202,6 @@
 
 </body>
 </html>
+
 
 
