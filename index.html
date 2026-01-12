@@ -87,6 +87,9 @@
     <label>CeX Trade-in value (€)</label>
     <input type="number" id="cexValue" placeholder="e.g. 5">
 
+    <label>eBay fee (%)</label>
+<input type="number" id="feePercent" value="15">
+    
     <button onclick="calculate()">Calculate Profit</button>
   </div>
 
@@ -127,7 +130,9 @@
         return;
       }
 
-      const feeRate = 0.15;
+      const feePercent = parseFloat(document.getElementById("feePercent").value) || 0;
+      const feeRate = feePercent / 100;
+
       const fees = sold * feeRate;
       const net = sold - fees - postage;
       const difference = net - cex;
@@ -153,3 +158,4 @@
 
 </body>
 </html>
+
