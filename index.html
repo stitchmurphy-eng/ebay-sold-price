@@ -141,12 +141,10 @@
   // --- CeX (Irish site) ---
   // Replace spaces with + for search terms
   const cexTerms = item.trim().replace(/\s+/g, '+');
-
-  // Build the Irish CeX search URL
-  const cexUrl = `https://ie.webuy.com/search/?q=${cexTerms}`;
-
+  const cexUrl = `https://ie.webuy.com/search?stext=${cexTerms}`;
   window.open(cexUrl, "_blank");
 }
+
     
     function calculate() {
   const soldField = document.getElementById("soldPrice").value;
@@ -209,6 +207,7 @@
 
 </body>
 </html>
+
 
 
 
