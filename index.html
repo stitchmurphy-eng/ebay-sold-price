@@ -63,6 +63,9 @@
     <label>Postage cost (€)</label>
     <input type="number" id="postage" placeholder="e.g. 5">
 
+    <label>CeX Trade-in value (€)</label>
+<input type="number" id="cexValue" placeholder="e.g. 5">
+
     <button onclick="calculate()">Calculate Net</button>
 
     <p id="result"></p>
@@ -87,9 +90,41 @@
 
     const url = `${baseUrl}/sch/i.html?_nkw=${query}&LH_Sold=1&LH_Complete=1`;
 
-    window.location.href = url;
+    window.open(url, "_blank");
   }
 </script>
 
+  <script>
+  function calculate() {
+    const sold = parseFloat(document.getElementById("soldPrice").value);
+    const postage = parseFloat(document.getElementById("postage").value) || 0;
+    const cex = parseFloat(document.getElementById("cexValue").value) || 0;
+
+    if (isNaN(sold)) {
+      alert("Enter a sold price.");
+      return;
+    }
+
+    const feeRate = 0.15; // 15% eBay fees
+    const fees = sold * feeRate;
+    const net = sold - fees - postage;
+    const difference = net - cex;
+
+    let message = `eBay net: €${net.toFixed(2)}\n`;
+
+    if (cex > 0) {
+      if (difference > 0) {
+        message += `Better than CeX by €${difference.toFixed(2)}`;
+      } else {
+        message += `CeX is better by €${Math.abs(difference).toFixed(2)}`;
+      }
+    }
+
+    document.getElementById("result").innerText = message;
+  }
+</script>
+
+
 </body>
 </html>
+
