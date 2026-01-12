@@ -28,12 +28,26 @@
       padding: 15px;
       margin-top: 20px;
     }
+
+    select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
+}
+
   </style>
 </head>
 <body>
 
   <h2>eBay Sold Price Finder</h2>
 
+  <label>eBay Region</label>
+<select id="region">
+  <option value="ie">🇮🇪 Ireland</option>
+  <option value="uk">🇬🇧 United Kingdom</option>
+</select>
+
+  
   <div class="box">
     <label>Item name</label>
     <input type="text" id="itemName" placeholder="e.g. GTA Liberty City Stories PSP">
@@ -55,37 +69,27 @@
   </div>
 
   <script>
-    function openEbay() {
-      const item = document.getElementById("itemName").value;
+  function openEbay() {
+    const item = document.getElementById("itemName").value;
+    const region = document.getElementById("region").value;
 
-      if (!item) {
-        alert("Please enter an item name.");
-        return;
-      }
-
-      const query = encodeURIComponent(item);
-      const url = `https://www.ebay.ie/sch/i.html?_nkw=${query}&LH_Sold=1&LH_Complete=1`;
-
-      window.open(url, "_blank");
+    if (!item) {
+      alert("Please enter an item name.");
+      return;
     }
 
-    function calculate() {
-      const sold = parseFloat(document.getElementById("soldPrice").value);
-      const postage = parseFloat(document.getElementById("postage").value);
+    const query = encodeURIComponent(item);
 
-      if (isNaN(sold)) {
-        alert("Enter a sold price.");
-        return;
-      }
-
-      // Approx 15% eBay fees
-      const fees = sold * 0.15;
-      const net = sold - fees - (postage || 0);
-
-      document.getElementById("result").innerText =
-        `Estimated net after fees: €${net.toFixed(2)}`;
+    let baseUrl = "https://www.ebay.ie";
+    if (region === "uk") {
+      baseUrl = "https://www.ebay.co.uk";
     }
-  </script>
+
+    const url = `${baseUrl}/sch/i.html?_nkw=${query}&LH_Sold=1&LH_Complete=1`;
+
+    window.location.href = url;
+  }
+</script>
 
 </body>
 </html>
