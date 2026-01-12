@@ -139,7 +139,7 @@
   window.open(ebayUrl, "_blank");
 
   // --- CeX (Irish site) ---
-  const cexQuery = encodeURIComponent(item); // Just the item name, no PAL
+  const cexQuery = item.trim().replace(/\s+/g, '+'); // replace spaces with +
   const cexUrl = `https://ie.webuy.com/search.html?q=${cexQuery}`;
   window.open(cexUrl, "_blank");
 }
@@ -205,6 +205,7 @@
 
 </body>
 </html>
+
 
 
 
