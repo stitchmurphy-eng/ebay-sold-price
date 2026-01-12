@@ -138,12 +138,11 @@
   const ebayUrl = `${ebayBaseUrl}/sch/i.html?_nkw=${ebayQuery}&LH_Sold=1&LH_Complete=1`;
   window.open(ebayUrl, "_blank");
 
-  // --- CeX ---
-  const cexQuery = encodeURIComponent(item); // CeX doesn't need region, but you could append PAL if you want
-  const cexUrl = `https://uk.webuy.com/search.html?q=${cexQuery}`;
+  // --- CeX (Irish site) ---
+  const cexQuery = encodeURIComponent(item); // Just the item name, no PAL
+  const cexUrl = `https://ie.webuy.com/search.html?q=${cexQuery}`;
   window.open(cexUrl, "_blank");
 }
-
 
     function calculate() {
   const soldField = document.getElementById("soldPrice").value;
@@ -206,6 +205,7 @@
 
 </body>
 </html>
+
 
 
 
