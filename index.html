@@ -119,7 +119,7 @@
   </div>
 
   <script>
-    function openEbay() {
+   function openEbay() {
   const item = document.getElementById("itemName").value;
   const region = document.getElementById("region").value;
   const gameRegion = document.getElementById("gameRegion").value;
@@ -139,11 +139,15 @@
   window.open(ebayUrl, "_blank");
 
   // --- CeX (Irish site) ---
-  const cexQuery = item.trim().replace(/\s+/g, '+'); // replace spaces with +
-  const cexUrl = `https://ie.webuy.com/search.html?q=${cexQuery}`;
+  // Replace spaces with + for search terms
+  const cexTerms = item.trim().replace(/\s+/g, '+');
+
+  // Build the Irish CeX search URL
+  const cexUrl = `https://ie.webuy.com/search/?q=${cexTerms}`;
+
   window.open(cexUrl, "_blank");
 }
-
+    
     function calculate() {
   const soldField = document.getElementById("soldPrice").value;
   const soldListField = document.getElementById("soldPricesList").value;
@@ -205,6 +209,7 @@
 
 </body>
 </html>
+
 
 
 
