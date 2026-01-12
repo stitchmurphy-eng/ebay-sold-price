@@ -50,6 +50,14 @@
       padding: 12px;
       font-size: 16px;
       cursor: pointer;
+
+      textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  resize: vertical;
+}
     }
   </style>
 </head>
@@ -77,6 +85,9 @@
   <!-- Step 2 -->
   <div class="box">
     <h3>2. Profit Calculator</h3>
+
+    <label>Sold prices (use commas or spaces for multiple)</label>
+  <textarea id="soldPricesList" placeholder="e.g. 20, 25, 22" rows="3"></textarea>
 
     <label>Sold price (€)</label>
     <input type="number" id="soldPrice" placeholder="e.g. 25">
@@ -121,41 +132,65 @@
     }
 
     function calculate() {
-      const sold = parseFloat(document.getElementById("soldPrice").value);
-      const postage = parseFloat(document.getElementById("postage").value) || 0;
-      const cex = parseFloat(document.getElementById("cexValue").value) || 0;
+  const soldField = document.getElementById("soldPrice").value;
+  const soldListField = document.getElementById("soldPricesList").value;
+  const postage = parseFloat(document.getElementById("postage").value) || 0;
+  const cex = parseFloat(document.getElementById("cexValue").value) || 0;
+  const feePercent = parseFloat(document.getElementById("feePercent").value) || 0;
 
-      if (isNaN(sold)) {
-        alert("Enter a sold price.");
-        return;
-      }
+  let sold;
 
-      const feePercent = parseFloat(document.getElementById("feePercent").value) || 0;
-      const feeRate = feePercent / 100;
+  // If user entered multiple prices, calculate average
+  if (soldListField.trim() !== "") {
+    // Split by comma, space, or newline
+    const parts = soldListField.split(/[\s,]+/);
+    const numbers = parts.map(n => parseFloat(n)).filter(n => !isNaN(n));
 
-      const fees = sold * feeRate;
-      const net = sold - fees - postage;
-      const difference = net - cex;
-
-      const resultEl = document.getElementById("result");
-      let message = `eBay net: €${net.toFixed(2)}\n`;
-
-      if (cex > 0) {
-        if (difference > 0) {
-          message += `Better than CeX by €${difference.toFixed(2)}`;
-          resultEl.style.color = "green";
-        } else {
-          message += `CeX is better by €${Math.abs(difference).toFixed(2)}`;
-          resultEl.style.color = "red";
-        }
-      } else {
-        resultEl.style.color = "black";
-      }
-
-      resultEl.innerText = message;
+    if (numbers.length === 0) {
+      alert("Please enter valid sold prices in the list.");
+      return;
     }
+
+    const sum = numbers.reduce((a, b) => a + b, 0);
+    sold = sum / numbers.length;
+  } else {
+    // Otherwise use single sold price field
+    sold = parseFloat(soldField);
+    if (isNaN(sold)) {
+      alert("Enter a sold price or a list of sold prices.");
+      return;
+    }
+  }
+
+  const feeRate = feePercent / 100;
+  const fees = sold * feeRate;
+  const net = sold - fees - postage;
+  const difference = net - cex;
+
+  const resultEl = document.getElementById("result");
+  let message = `eBay net: €${net.toFixed(2)}\n`;
+
+  if (soldListField.trim() !== "") {
+    message += `Average sold price used: €${sold.toFixed(2)}\n`;
+  }
+
+  if (cex > 0) {
+    if (difference > 0) {
+      message += `Better than CeX by €${difference.toFixed(2)}`;
+      resultEl.style.color = "green";
+    } else {
+      message += `CeX is better by €${Math.abs(difference).toFixed(2)}`;
+      resultEl.style.color = "red";
+    }
+  } else {
+    resultEl.style.color = "black";
+  }
+
+  resultEl.innerText = message;
+}
   </script>
 
 </body>
 </html>
+
 
