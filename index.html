@@ -101,6 +101,13 @@
   <option value="GameCube">GameCube</option>
 </select>
 
+    <label>Item Condition</label>
+<select id="condition">
+  <option value="">Any</option>
+  <option value="new">New</option>
+  <option value="used">Used</option>
+</select>
+
     <label>Item name</label>
     <input type="text" id="itemName" placeholder="e.g. GTA Liberty City Stories PSP">
 
@@ -141,6 +148,7 @@ function openEbay() {
   const region = document.getElementById("region").value;
   const gameRegion = document.getElementById("gameRegion").value;
   const consoleType = document.getElementById("console").value;
+  const condition = document.getElementById("condition").value;
 
   if (!item) {
     alert("Please enter an item name.");
@@ -152,13 +160,22 @@ function openEbay() {
   if (consoleType) searchText += " " + consoleType;
 
   // --- eBay ---
-  const ebayQuery = encodeURIComponent(searchText + " " + gameRegion);
+  let ebayQuery = encodeURIComponent(searchText + " " + gameRegion);
+
   let ebayBaseUrl = "https://www.ebay.ie";
   if (region === "uk") {
     ebayBaseUrl = "https://www.ebay.co.uk";
   }
 
-  const ebayUrl = `${ebayBaseUrl}/sch/i.html?_nkw=${ebayQuery}&LH_Sold=1&LH_Complete=1`;
+  let ebayUrl = `${ebayBaseUrl}/sch/i.html?_nkw=${ebayQuery}&LH_Sold=1&LH_Complete=1`;
+
+  // Apply condition filter
+  if (condition === "new") {
+    ebayUrl += "&LH_ItemCondition=1000";
+  } else if (condition === "used") {
+    ebayUrl += "&LH_ItemCondition=3000";
+  }
+
   window.open(ebayUrl, "_blank");
 
   // --- CeX (Ireland) ---
@@ -228,6 +245,7 @@ function openEbay() {
 
 </body>
 </html>
+
 
 
 
