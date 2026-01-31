@@ -83,6 +83,23 @@
   <option value="NTSC-J">NTSC-J (Japan)</option>
 </select>
 
+    <label>Console</label>
+<select id="console">
+  <option value="">Any</option>
+  <option value="PSP">PSP</option>
+  <option value="PS1">PlayStation 1</option>
+  <option value="PS2">PlayStation 2</option>
+  <option value="PS3">PlayStation 3</option>
+  <option value="PS4">PlayStation 4</option>
+  <option value="PS5">PlayStation 5</option>
+  <option value="Xbox">Xbox</option>
+  <option value="Xbox 360">Xbox 360</option>
+  <option value="Xbox One">Xbox One</option>
+  <option value="Nintendo Switch">Nintendo Switch</option>
+  <option value="Wii">Nintendo Wii</option>
+  <option value="Wii U">Wii U</option>
+  <option value="GameCube">GameCube</option>
+</select>
 
     <label>Item name</label>
     <input type="text" id="itemName" placeholder="e.g. GTA Liberty City Stories PSP">
@@ -119,32 +136,36 @@
   </div>
 
   <script>
-   function openEbay() {
+function openEbay() {
   const item = document.getElementById("itemName").value;
   const region = document.getElementById("region").value;
   const gameRegion = document.getElementById("gameRegion").value;
+  const consoleType = document.getElementById("console").value;
 
   if (!item) {
     alert("Please enter an item name.");
     return;
   }
 
+  // Build base search text
+  let searchText = item;
+  if (consoleType) searchText += " " + consoleType;
+
   // --- eBay ---
-  const ebayQuery = encodeURIComponent(item + " " + gameRegion);
+  const ebayQuery = encodeURIComponent(searchText + " " + gameRegion);
   let ebayBaseUrl = "https://www.ebay.ie";
   if (region === "uk") {
     ebayBaseUrl = "https://www.ebay.co.uk";
   }
+
   const ebayUrl = `${ebayBaseUrl}/sch/i.html?_nkw=${ebayQuery}&LH_Sold=1&LH_Complete=1`;
   window.open(ebayUrl, "_blank");
 
-  // --- CeX (Irish site) ---
-  // Replace spaces with + for search terms
-  const cexTerms = item.trim().replace(/\s+/g, '+');
-  const cexUrl = `https://ie.webuy.com/search?stext=${cexTerms}`;
+  // --- CeX (Ireland) ---
+  const cexQuery = searchText.trim().replace(/\s+/g, '+');
+  const cexUrl = `https://ie.webuy.com/search?stext=${cexQuery}`;
   window.open(cexUrl, "_blank");
 }
-
     
     function calculate() {
   const soldField = document.getElementById("soldPrice").value;
@@ -207,6 +228,7 @@
 
 </body>
 </html>
+
 
 
 
